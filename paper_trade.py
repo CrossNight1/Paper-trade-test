@@ -133,6 +133,7 @@ class SimpleStrategy:
 
         # Extract actual candle data
         candles = candles_response.get("candle", [])
+        self.logger_strategy.info(f"Raw response: {candles_response}")
         self.logger_strategy.info(f"Fetched {len(candles)} candles for {self.symbol}/{self.quote} {self.interval} interval")
 
         # Build DataFrame
@@ -195,11 +196,13 @@ class SimpleStrategy:
         try:
             if side == "BUY":
                 balance = self.check_account_balance(is_base=False)
+                self.logger_strategy.info(f"{self.quote} balance: {balance}")
                 if balance < self.trade_value:
                     self.logger_strategy.warning(f"Insufficient {self.quote} balance")
                     return False
             elif side == "SELL":
                 balance = self.check_account_balance(is_base=True)
+                self.logger_strategy.info(f"{self.symbol} balance: {balance}")
                 if balance * price < self.trade_value:
                     self.logger_strategy.warning(f"Insufficient {self.symbol} balance")
                     return False
