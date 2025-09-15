@@ -61,7 +61,7 @@ class SimpleStrategy:
         self.lastest_pos = 0    # 1 = long, -1 = short, 0 = flat
 
         # Config logger
-        self.exchange = "poloniex"
+        self.exchange = "binance"
         self.class_name = self.__class__.__name__
         strategy_log_name = f'{self.symbol}_{self.exchange}_{self.class_name}'
         self.logger_strategy = setup_logger_global(
@@ -69,7 +69,6 @@ class SimpleStrategy:
         )
         self.stop_flag = False
 
-        # Initialize Poloniex client
         try:
             account_info = {
                 "api_key": api_key,
@@ -78,7 +77,7 @@ class SimpleStrategy:
             }
 
             self.client = get_client_exchange(
-                exchange_name="poloniex",
+                exchange_name="binance",
                 acc_info=account_info,
                 symbol=self.symbol,
                 quote=self.quote,
