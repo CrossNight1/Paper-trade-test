@@ -225,7 +225,7 @@ class SimpleStrategy:
                     self.logger_strategy.info("No trade executed this cycle")
                 time.sleep(self.sleep)
         except Exception as e:
-            self.logger_strategy.error(f"Strategy error: {e}")
+            self.logger_strategy.error(f"Strategy error: {e} _ {e.__traceback__.tb_lineno}")
             return False
 
 def main():
