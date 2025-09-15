@@ -133,7 +133,6 @@ class SimpleStrategy:
 
         # Extract actual candle data
         candles = candles_response.get("candle", [])
-        self.logger_strategy.info(f"Raw response: {candles_response}")
         self.logger_strategy.info(f"Fetched {len(candles)} candles for {self.symbol}/{self.quote} {self.interval} interval")
 
         # Build DataFrame
