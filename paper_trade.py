@@ -43,7 +43,7 @@ class SimpleStrategy:
         self.session_key = session_key
 
         # Strategy params
-        self.symbol = "ETH"
+        self.symbol = "BTC"
         self.quote = "USDT"
         self.trade_value = 100              # Trade value in quote currency
         self.ma_period = 50
@@ -105,7 +105,7 @@ class SimpleStrategy:
             return None
 
     def check_account_balance(self, is_base=False):
-        """Check available balance of base (ETH) or quote (USDT)."""
+        """Check available balance of base (BTC) or quote (USDT)."""
         currency = self.symbol if is_base else self.quote
         try:
             balance_data = self.client.get_account_assets(currency)
