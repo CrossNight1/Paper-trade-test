@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+Test Strategy for Poloniex BTC Trading
+Checks BTC price and places buy order if price < $100k USD
+"""
+
 ##Test Paper Trade
 
 
@@ -46,7 +51,7 @@ class SimpleStrategy:
         self.symbol = "BTC"
         self.quote = "USDT"
         self.trade_value = 100              # Trade value in quote currency
-        self.ma_period = 50
+        self.ma_period = 100
         self.type_ma = "SMA"                # or "EMA"
         self.interval = "1h"
         self.limit = self.ma_period * 2
@@ -170,6 +175,8 @@ class SimpleStrategy:
 
         curr_ma = ma.iloc[-1]
         curr_price = self.get_current_price()
+        
+        self.logger_strategy.info(f"Current price: {curr_price}, Moving average: {curr_ma}")
 
         if curr_price is None or np.isnan(curr_price):
             return 0
