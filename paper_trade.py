@@ -124,19 +124,37 @@ class SimpleStrategy:
 
     def get_candles(self):
         """Fetch OHLCV candles and return as DataFrame."""
-        candles = self.client.get_candles(
+        candles_response = self.client.get_candles(
             base=self.symbol,
             quote=self.quote,
             interval=self.interval,
             limit=self.limit
         )
-        self.logger_strategy.info(candles)
-        self.logger_strategy.info(f'Fetched {len(candles)} candles for {self.symbol}/{self.quote} {self.interval} interval')  
-        df = pd.DataFrame(candles, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+
+        # Extract actual candle data
+        candles = candles_response.get("candle", [])
+        self.logger_strategy.info(f"Raw response: {candles_response}")
+        self.logger_strategy.info(f"Fetched {len(candles)} candles for {self.symbol}/{self.quote} {self.interval} interval")
+
+        # Build DataFrame
+        df = pd.DataFrame(
+            candles,
+            columns=['timestamp', 'open', 'high', 'low', 'close', 'volume',
+                    'close_time', 'quote_volume', 'trades',
+                    'taker_base', 'taker_quote', 'ignore']
+        )
+
+        # Keep only OHLCV for strategy
+        df = df[['timestamp', 'open', 'high', 'low', 'close', 'volume']]
+
+        # Convert timestamp
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
         df.set_index('timestamp', inplace=True)
+
+        # Cast numeric columns
         for col in ['open', 'high', 'low', 'close', 'volume']:
             df[col] = df[col].astype(float)
+
         return df
 
     def get_signal(self):
