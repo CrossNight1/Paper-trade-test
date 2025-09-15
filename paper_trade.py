@@ -298,9 +298,9 @@ def main():
         logger_access.error(f"❌ Fatal error: {e}")
         update_key_and_insert_error_log(
             generate_random_string(),
-            "ETH",
+            "BTC",
             get_line_number(),
-            "POLONIEX",
+            "BINANCE",
             "test-strategy.py",
             f"Fatal error: {e}"
         )
