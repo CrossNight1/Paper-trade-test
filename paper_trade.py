@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-"""
-Test Strategy for Poloniex BTC Trading
-Checks BTC price and places buy order if price < $100k USD
-"""
-
 ##Test Paper Trade
 
 
@@ -51,7 +46,7 @@ class SimpleStrategy:
         self.symbol = "ETH"
         self.quote = "USDT"
         self.trade_value = 100              # Trade value in quote currency
-        self.ma_period = 20
+        self.ma_period = 50
         self.type_ma = "SMA"                # or "EMA"
         self.interval = "1h"
         self.limit = self.ma_period * 2
@@ -133,7 +128,6 @@ class SimpleStrategy:
 
         # Extract actual candle data
         candles = candles_response.get("candle", [])
-        self.logger_strategy.info(f"Raw response: {candles_response}")
         self.logger_strategy.info(f"Fetched {len(candles)} candles for {self.symbol}/{self.quote} {self.interval} interval")
 
         # Build DataFrame
