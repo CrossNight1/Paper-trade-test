@@ -12,6 +12,7 @@ import sys
 import time
 import json
 import pandas as pd
+import numpy as np
 from decimal import Decimal
 
 # Add the parent directory to the path to import our modules
@@ -139,6 +140,9 @@ class SimpleStrategy:
     def get_signal(self):
         """Return signal based on current price and moving average."""
         df = self.get_candles()
+        if df.empty or len(df) < self.ma_period:
+            return 0  # not enough data
+        
         close = df['close']
 
         if self.type_ma.upper() == "EMA":
@@ -146,18 +150,22 @@ class SimpleStrategy:
         else:
             ma = close.rolling(window=self.ma_period).mean()
 
+        # Make sure last value exists
+        if ma.empty or np.isnan(ma.iloc[-1]):
+            return 0
+
         curr_ma = ma.iloc[-1]
         curr_price = self.get_current_price()
 
-        if curr_price is None or np.isnan(curr_ma):
+        if curr_price is None or np.isnan(curr_price):
             return 0
 
         if curr_price > curr_ma:
             return 1
         elif curr_price < curr_ma:
             return -1
-        else:
-            return 0
+        return 0
+
 
     def get_quantity(self, price):
         """Calculate quantity based on trade value and current price."""
