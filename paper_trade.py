@@ -130,6 +130,7 @@ class SimpleStrategy:
             interval=self.interval,
             limit=self.limit
         )
+        self.logger_strategy.info(f"Received {len(candles)} candles")
         df = pd.DataFrame(candles, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
         df.set_index('timestamp', inplace=True)
