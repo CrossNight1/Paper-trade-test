@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""
-Test Strategy for Poloniex BTC Trading
-Checks BTC price and places buy order if price < $100k USD
-"""
-
 ##Test Paper Trade
-
 
 import os
 import sys
@@ -129,8 +123,8 @@ class SimpleStrategy:
             quote=self.quote,
             interval=self.interval,
             limit=self.limit
-        )
-        self.logger_strategy.info(f"Received {len(candles)} candles")
+        )['data']
+        self.logger_strategy.info(f'Fetched {len(candles)} candles for {self.symbol}/{self.quote} {self.interval} interval')  
         df = pd.DataFrame(candles, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
         df.set_index('timestamp', inplace=True)
