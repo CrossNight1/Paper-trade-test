@@ -126,6 +126,7 @@ class SimpleStrategy:
         """Fetch OHLCV candles and return as DataFrame."""
         candles = self.client.get_candles(
             base=self.symbol,
+            quote=self.quote,
             interval=self.interval,
             limit=self.limit
         )
